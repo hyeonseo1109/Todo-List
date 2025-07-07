@@ -45,16 +45,15 @@ function App() {
   return (
     <>
       <h1 className='title'>TODO LIST</h1>
-      <Clock />
       <Advice />
 
       <button onClick={() => setIsTimer(prev => !prev)}>{isTimer ? "스톱워치로 변경" : "타이머로 변경"}</button>
       {isTimer ? ( <Timer time={time} setTime={setTime}/> ) : (<StopWatch time={time} setTime={setTime}/>)}
       <hr />
+      <Clock />
       
       <TodoInput setTodo={setTodo}/>
       <TodoList todo={todo} setTodo={setTodo} setCurrentTodo={setCurrentTodo} currentTodo={currentTodo}/>
-      <Giraffe />
     </>
   )
 }
@@ -76,31 +75,12 @@ const useFetch = (url) => {
 
 const Advice = () => {
   const [isLoading, data] = useFetch("https://korean-advice-open-api.vercel.app/api/advice");
+  
   return (
     <>
       {!isLoading && (
         <>
-        {/* <p>˘꒷꒦˘꒷꒦꒷˘꒦꒷꒦˘꒦˘꒷꒦꒷˘꒦꒷꒦˘꒷꒦˘꒷꒦꒷˘꒦꒷꒦˘꒦˘꒷꒦꒷˘꒦꒷꒦˘</p>
-        <p>∘ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-          ∘ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
-          ° &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
-          ∘ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-          ∘ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-        </p> */}
-        {/* <p>
-          𓏧 𓏲 𓏲 𓏲 𓋒𓏲 𓏲 𓏲 𓏲 𓏧 𓏲 𓏲 𓏲 𓋒𓏲 𓏲 𓏲 𓏲 𓏧 𓏲 𓏲 𓏲 𓋒𓏲 𓏲 𓏲 𓏲 𓏧
-        </p>
-        <p>
-          ‧̍̊˙· 𓆝.° ｡˚𓆛˚｡ °.𓆞 ·˙‧̍̊𓆝.° ｡˚𓆛˚｡ °.𓆞 ·˙‧̍̊
-        </p> */}
-        <p>
-             ＾   0o0&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br/>
-            ミ ・ 。・ ミ&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br/>
-            —○———○——————————<br/>
-        </p>
-        
-
-
+        <hr />
         <p>"
           <div>{data.message}</div>
         "</p>
@@ -239,33 +219,30 @@ const TodoList = ( {todo, setTodo, setCurrentTodo, currentTodo }) => {
 
 const Todo = ({ todo, setTodo, setCurrentTodo, currentTodo }) => {
   return (
-    <>
-      <li className={currentTodo === todo.id ? 'current list' : "list"}>
-        <div>
-          {todo.content}
-        </div>
-        <div>
-          {formatTime(todo.time)}
-          <button
-            onClick={() => setCurrentTodo(todo.id)}>시작하기</button>
-          <button onClick={ () => {
-            fetch(`http://localhost:3000/todo/${todo.id}`, {
-              method: "DELETE",
-            })
-            .then( (res) => {
-              if (res.ok) {
-                setTodo(prev => prev.filter(el => el.id !== todo.id))
-                  //내가 택한 것과 아이디가 다른 애들만 남긴다. = 내가 택한 애는 없어진다.
-              }
-            })
-          }}>삭제</button>
+    <li className={currentTodo === todo.id ? 'current' : ""}>
+      <div>
+        {todo.content}
+        <br/>
+        {formatTime(todo.time)}
+      </div>
+      <div>
+        <button
+          onClick={() => setCurrentTodo(todo.id)}>시작하기</button>
+        <button onClick={ () => {
+          fetch(`http://localhost:3000/todo/${todo.id}`, {
+            method: "DELETE",
+          })
+          .then( (res) => {
+            if (res.ok) {
+              setTodo(prev => prev.filter(el => el.id !== todo.id))
+                //내가 택한 것과 아이디가 다른 애들만 남긴다. = 내가 택한 애는 없어진다.
+            }
+          })
+        }}>삭제</button>
 
-          
-        </div>
-      </li>
-    
-      <hr className='dashed'/>
-    </>
+        
+      </div>
+    </li>
   )
 }
 
@@ -287,33 +264,11 @@ const TodoInput = ({ setTodo }) => {
   };
   return (
     <>
-      <input ref={inputRef} />
-      <button onClick={addTodo}>추가</button>
-      <hr className='hr'/>
+    <input ref={inputRef} />
+    <button onClick={addTodo}>추가</button>
+    <hr className='hr'/>
     </>
   )
 }
-
-
-const Giraffe = () => (
-  <pre>
-  {`
-    　　　(/ΩΩ/)
-  　　 / •• /
-  　　(＿ノ |
-  　　　 |　|
-  　　　 |　|
-  　　 __|　|＿
-  　　/ヘ　　/ )
-  　　Lニニコ/
-  　　|￣￣￣|
-  　　     |　　　|――≦彡
-  　　|　∩  |
-  　　|　|| |
-  　　|　||　|
-  　　|二||二|
-  `}
-  </pre>
-);
 
 export default App

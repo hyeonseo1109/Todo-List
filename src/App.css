@@ -3,10 +3,13 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  width: 60%;
+  min-width: 600px;
 }
 
 .title {
   text-shadow: 0 0 15px #6490ff;
+  margin: 10px 0;
 }
 
 
@@ -24,10 +27,28 @@
 
 .author {
   font-size: 0.7em;
+  margin: 0;
 }
 
 .hr {
   border: 0.5px solid rgb(176, 176, 176);
+}
+
+button {
+  width: auto;
+  height: auto;
+  font-size: 15px;
+}
+
+.dashed {
+  border: 1px dashed rgb(189, 189, 189);
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 @keyframes flip-back-forth {
