@@ -1,0 +1,52 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.title {
+  text-shadow: 0 0 15px #6490ff;
+}
+
+
+.title:hover {
+  filter: drop-shadow(0 0 15px #6490ffaa);
+  color: white;
+  animation: scale-up-down 1s ease-in-out infinite;
+  display: inline-block; /* transform 애니메이션이 잘 작동하도록 */
+}
+
+
+.current {
+  background-color: rgb(230, 234, 255);
+}
+
+.author {
+  font-size: 0.7em;
+}
+
+.hr {
+  border: 0.5px solid rgb(176, 176, 176);
+}
+
+@keyframes flip-back-forth {
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes scale-up-down {
+  0%, 100% {
+    transform: scale(1);    /* 원래 크기 */
+  }
+  50% {
+    transform: scale(1.2);  /* 1.2배 커진 상태 */
+  }
+}
