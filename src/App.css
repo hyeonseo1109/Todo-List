@@ -10,12 +10,12 @@
 .title {
   text-shadow: 0 0 15px #6490ff;
   margin: 10px 0;
+  color: white;
 }
 
 
 .title:hover {
   filter: drop-shadow(0 0 15px #6490ffaa);
-  color: white;
   animation: scale-up-down 1s ease-in-out infinite;
   display: inline-block; /* transform 애니메이션이 잘 작동하도록 */
 }
@@ -23,6 +23,10 @@
 
 .current {
   background-color: rgb(230, 234, 255);
+}
+
+.clock {
+  color: #adbce1;
 }
 
 .author {
@@ -36,20 +40,74 @@
 
 button {
   width: auto;
-  height: auto;
+  height: 40px;
   font-size: 15px;
+  border: 1px solid #adbcef;
 }
 
 .dashed {
-  border: 1px dashed rgb(189, 189, 189);
+  border: 1px dashed rgb(209, 209, 209);
 }
-
+.giraffe {
+  color: rgb(237, 210, 30);
+  
+}
 .list {
   list-style: none;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
+.listBts {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.time {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px;
+}
+.listContent {
+  border: 3px double gray;
+  border-radius: 30px;
+  padding: 20px;
+}
+
+.swCss {
+  justify-content: space-between;
+  display: flex;
+  width: 280px;
+}
+.swFormat {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.kitty {
+  line-height: 1.1;
+}
+
+.tmFormat {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.todoInput {
+  gap: 10px;
+  display: flex;
+  justify-content: end;
+}
+
+.input {
+  border: none;
+  border-bottom: 2px dashed gray;
+}
+
 
 @keyframes flip-back-forth {
   0% {

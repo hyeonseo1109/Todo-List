@@ -47,13 +47,14 @@ function App() {
       <h1 className='title'>TODO LIST</h1>
       <Clock />
       <Advice />
-
-      <button onClick={() => setIsTimer(prev => !prev)}>{isTimer ? "스톱워치로 변경" : "타이머로 변경"}</button>
-      {isTimer ? ( <Timer time={time} setTime={setTime}/> ) : (<StopWatch time={time} setTime={setTime}/>)}
-      <hr />
-      
-      <TodoInput setTodo={setTodo}/>
-      <TodoList todo={todo} setTodo={setTodo} setCurrentTodo={setCurrentTodo} currentTodo={currentTodo}/>
+      <div className="time">
+        <button onClick={() => setIsTimer(prev => !prev)}>{isTimer ? "스톱워치로 변경" : "타이머로 변경"}</button>
+        {isTimer ? ( <Timer time={time} setTime={setTime}/> ) : (<StopWatch time={time} setTime={setTime}/>)}
+      </div>
+      <div className="listContent">
+        <TodoList todo={todo} setTodo={setTodo} setCurrentTodo={setCurrentTodo} currentTodo={currentTodo}/>
+        <TodoInput setTodo={setTodo}/>
+      </div>
       <Giraffe />
     </>
   )
@@ -93,11 +94,7 @@ const Advice = () => {
         <p>
           ‧̍̊˙· 𓆝.° ｡˚𓆛˚｡ °.𓆞 ·˙‧̍̊𓆝.° ｡˚𓆛˚｡ °.𓆞 ·˙‧̍̊
         </p> */}
-        <p>
-             ＾   0o0&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br/>
-            ミ ・ 。・ ミ&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br/>
-            —○———○——————————<br/>
-        </p>
+        <Hellokitty />
         
 
 
@@ -131,35 +128,36 @@ const Timer = ({ time, setTime }) => {
 
   return (
     <div>
+        <input 
+          className="swCss"
+          type="range" 
+          value={startTime} 
+          min="0"
+          max='2400'
+          step="5"
+          onChange={ (event) => setStartTime(event.target.value) } 
+        />
 
-      <div>
+      <div className='swFormat'>
         {time ? formatTime(time) : formatTime(startTime)}
-        <button onClick={ () => {
-          setIsOn(true);
-          setTime(time ? time : startTime);
-          setStartTime(0);
+        <div className="swBtCss">
+          <button onClick={ () => {
+            setIsOn(true);
+            setTime(time ? time : startTime);
+            setStartTime(0);
+            }}>
+              시작
+          </button>
+          <button onClick={ () => setIsOn(false)}>멈춤</button>
+          <button onClick={ () => {
+          setTime(0);
+          setIsOn(false);
           }}>
-            시작
-        </button>
-
-        <button onClick={ () => setIsOn(false)}>멈춤</button>
+            리셋
+          </button>
+        </div>
 
       </div>
-
-      <button onClick={ () => {
-        setTime(0);
-        setIsOn(false);
-        }}>
-          리셋
-        </button>
-      <input 
-        type="range" 
-        value={startTime} 
-        min="0"
-        max='1800'
-        step="5"
-        onChange={ (event) => setStartTime(event.target.value) } 
-      />
 
     </div>
   )
@@ -177,7 +175,7 @@ const Clock = () => {
   }, [])
 
   return (
-    <div>
+    <div className='clock'>
       {time.toLocaleTimeString()}
     </div>
   )
@@ -208,13 +206,15 @@ const StopWatch = ({ time, setTime }) => {
   }, [isOn]);
 
   return (
-    <div>
+    <div className="tmFormat">
       {formatTime(time)}
-      <button onClick={ () => setIsOn( (prev) => !prev )}>{isOn ? "끄기" : "켜기"}</button>
-      <button onClick={() => {
-        setTime(0);
-        setIsOn(false);
-      }}>리셋</button>
+      <div>
+        <button onClick={ () => setIsOn( (prev) => !prev )}>{isOn ? "끄기" : "켜기"}</button>
+        <button onClick={() => {
+          setTime(0);
+          setIsOn(false);
+        }}>리셋</button>
+      </div>
     </div>
   )
 }
@@ -244,21 +244,24 @@ const Todo = ({ todo, setTodo, setCurrentTodo, currentTodo }) => {
         <div>
           {todo.content}
         </div>
-        <div>
+        <div className='listBts'>
           {formatTime(todo.time)}
-          <button
-            onClick={() => setCurrentTodo(todo.id)}>시작하기</button>
-          <button onClick={ () => {
-            fetch(`http://localhost:3000/todo/${todo.id}`, {
-              method: "DELETE",
-            })
-            .then( (res) => {
-              if (res.ok) {
-                setTodo(prev => prev.filter(el => el.id !== todo.id))
-                  //내가 택한 것과 아이디가 다른 애들만 남긴다. = 내가 택한 애는 없어진다.
-              }
-            })
-          }}>삭제</button>
+          <div className="listBt">
+            <button
+              onClick={() => setCurrentTodo(todo.id)}>시작하기</button>
+            <button onClick={ () => {
+              fetch(`http://localhost:3000/todo/${todo.id}`, {
+                method: "DELETE",
+              })
+              .then( (res) => {
+                if (res.ok) {
+                  setTodo(prev => prev.filter(el => el.id !== todo.id))
+                    //내가 택한 것과 아이디가 다른 애들만 남긴다. = 내가 택한 애는 없어진다.
+                }
+              })
+            }}>삭제</button>
+          </div>
+          
 
           
         </div>
@@ -286,19 +289,18 @@ const TodoInput = ({ setTodo }) => {
     inputRef.current.value = ''
   };
   return (
-    <>
-      <input ref={inputRef} />
+    <div className='todoInput'>
+      <input ref={inputRef} className='input'/>
       <button onClick={addTodo}>추가</button>
-      <hr className='hr'/>
-    </>
+    </div>
   )
 }
 
 
 const Giraffe = () => (
-  <pre>
+  <pre className='giraffe'>
   {`
-    　　　(/ΩΩ/)
+    　　(/ΩΩ/)
   　　 / •• /
   　　(＿ノ |
   　　　 |　|
@@ -315,5 +317,14 @@ const Giraffe = () => (
   `}
   </pre>
 );
+
+
+const Hellokitty = () => (
+  <p className="kitty">
+      ＾   <span style={{color:"rgb(238, 0, 0)"}}>0o0</span>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br/>
+      ミ <span style={{fontWeight:"900"}}>・</span> <span style={{color:"rgb(255, 225, 0)", fontWeight:"900"}}>。</span><span style={{fontWeight:"900"}}>・</span> ミ&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br/>
+      —<span style={{fontSize:"0.7em"}}>○</span>———<span style={{fontSize:"0.7em"}}>○</span>——————————<br/>
+  </p>
+)
 
 export default App
