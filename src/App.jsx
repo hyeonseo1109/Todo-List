@@ -287,17 +287,18 @@ const TodoInput = ({ setTodo }) => {
       time: 0,
     };
     fetch("http://localhost:3000/todo", {
-      method: "POST",
+      method: "POST", //데이터 전송
       body: JSON.stringify(newTodo),
     })
     .then( (res) => res.json())
-    .then( (res) => setTodo( (prev) => [...prev, res]))
-    inputRef.current.value = ''
+    .then( (res) => setTodo( (prev) => [...prev, res])) //이전 내용에 새로 추가된 내용을 넣어줌
+    inputRef.current.value = '' //추가되면 입력창을 비워줌
   };
   return (
     <div className='todoInput'>
       <input ref={inputRef} className='input'/>
-      <button onClick={addTodo}>추가</button>
+      <button onClick={addTodo}>추가</button> 
+      {/* 버튼 누르면 리스트 추가하는 함수 실행 */}
     </div>
   )
 }
